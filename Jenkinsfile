@@ -2,8 +2,7 @@ pipeline {
   agent any
 
   environment {
-    IMAGE = '03195832603/todoapp'
-    TAG   = "v${env.BUILD_NUMBER}"
+    // no need for IMAGE or TAG since we build & deploy locally
   }
 
   stages {
@@ -13,31 +12,21 @@ pipeline {
       }
     }
 
-    stage('Build Image') {
+    stage('Build & Deploy') {
       steps {
-        script {
-          docker.build("${IMAGE}:${TAG}")
-        }
-      }
-    }
+        // go into your project directory
+        dir('Todo_Tasks') {
+          sh '''
+            # Build the image
+            docker compose build
 
-    stage('Push Image') {
-      steps {
-        script {
-          docker.withRegistry('', 'dockerhub-creds') {
-            docker.image("${IMAGE}:${TAG}").push()
-          }
-        }
-      }
-    }
+            # (Optional) Tear down any existing containers
+            docker compose down || true
 
-    stage('Deploy') {
-      steps {
-        sh '''
-          docker compose down || true
-          sed -i "s|image:.*|image: ${IMAGE}:${TAG}|" docker-compose.yml
-          docker compose up -d
-        '''
+            # Launch or update containers
+            docker compose up -d
+          '''
+        }
       }
     }
   }
