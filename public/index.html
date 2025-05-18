@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enhanced To-Do App</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Task Manager</h1>
+      <div class="controls">
+        <input type="text" id="search" placeholder="Search tasks..." />
+        <select id="filter">
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+    </header>
+
+    <form id="task-form">
+      <input type="text" id="task-input" placeholder="New task..." required />
+      <input type="date" id="due-date" />
+      <select id="priority">
+        <option value="low">Low</option>
+        <option value="medium" selected>Medium</option>
+        <option value="high">High</option>
+      </select>
+      <button type="submit" class="btn btn-add">Add Task</button>
+    </form>
+
+    <ul id="tasks"></ul>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
