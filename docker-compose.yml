@@ -1,0 +1,21 @@
+cat > docker-compose.yml << 'EOF'
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "80:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/todoapp
+
+  mongo:
+    image: mongo:6
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+EOF
